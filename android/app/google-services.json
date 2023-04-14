@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1060238364180",
+    "firebase_url": "https://green-house-monitoring-mbm-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "green-house-monitoring-mbm",
+    "storage_bucket": "green-house-monitoring-mbm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060238364180:android:a280e8c605c0d0a30c6101",
+        "android_client_info": {
+          "package_name": "com.example.plant_monitor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1060238364180-bo67ko2houbat7ou1hj80inatskjvq2n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWD3OP9s0dEp3_HnVxrCUnhF3oROg7gcU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1060238364180-bo67ko2houbat7ou1hj80inatskjvq2n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
