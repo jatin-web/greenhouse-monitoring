@@ -92,10 +92,11 @@ class _CurrentDataTabState extends State<CurrentDataTab> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                 
                   GridView(
                     shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 130,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
                         childAspectRatio: 5 / 4,
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10),
