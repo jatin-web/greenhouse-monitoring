@@ -46,31 +46,35 @@ class _CurrentDataTabState extends State<CurrentDataTab> {
       {bool isWaterContentLabel = false, bool isForLight = false}) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: Colors.teal.withOpacity(0.5)),
+          borderRadius: BorderRadius.circular(25),
+          border: Border.all(width: 1.5, color: Colors.teal),
+          color: Colors.teal.withOpacity(0.3)),
       padding: const EdgeInsets.all(15),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            key,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-          ),
           const SizedBox(height: 10),
           isWaterContentLabel
               ? Text(
                   val == "1" ? "Absent" : "Present",
-                  style: const TextStyle(fontSize: 30),
+                  style: const TextStyle(
+                      fontSize: 25, fontWeight: FontWeight.bold),
                 )
               : isForLight
                   ? Text(
                       val == "1" ? "Present" : "Absent",
-                      style: const TextStyle(fontSize: 30),
+                      style: const TextStyle(
+                          fontSize: 25, fontWeight: FontWeight.bold),
                     )
                   : Text(
                       "$val $unit",
                       style: const TextStyle(fontSize: 30),
                     ),
+          const SizedBox(height: 10),
+          Text(
+            key,
+            style: const TextStyle(fontSize: 18),
+          ),
         ],
       ),
     );
@@ -81,24 +85,29 @@ class _CurrentDataTabState extends State<CurrentDataTab> {
     return Scaffold(
       body: Column(
         children: [
-          Expanded(child: Lottie.asset("assets/lottie/plant_growth.json")),
+          Expanded(
+              child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Lottie.asset("assets/lottie/plant_growth.json"),
+          )),
           Material(
             elevation: 3,
             child: Container(
               padding: const EdgeInsets.all(15),
               width: double.infinity,
-              decoration: const BoxDecoration(
-                  border: Border(top: BorderSide(color: Colors.black))),
+              // decoration: const BoxDecoration(
+              //     border: Border(top: BorderSide(color: Colors.black))),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   GridView(
                     shrinkWrap: true,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 5 / 4,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 5 / 4,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10),
                     children: [
                       _infoBox("Water Content ", soilData.toString(), "%",
                           isWaterContentLabel: true),

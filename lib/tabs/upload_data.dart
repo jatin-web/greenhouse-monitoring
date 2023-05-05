@@ -115,18 +115,16 @@ class _UploadDataScreenState extends State<UploadDataScreen> {
                               "is_turn_on_LED": isTurnOnLight,
                             });
                           }),
+                          Column(
+                            children: [
+                              _getField(
+                                  "Temperature", "temprature_refrance_value"),
+                              _getField("Humidity", "humidity_refrance_value"),
+                            ],
+                          )
                         ],
                       ),
                     ),
-              Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Column(
-                  children: [
-                    _getField("Temperature", "temprature_refrance_value"),
-                    _getField("Humidity", "humidity_refrance_value"),
-                  ],
-                ),
-              )
             ],
           ),
         ),
