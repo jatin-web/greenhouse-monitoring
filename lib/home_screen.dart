@@ -11,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int currIndex = 0;
+  int currIndex = 2;
 
   List<Widget> pages = [
     const CurrentDataTab(),

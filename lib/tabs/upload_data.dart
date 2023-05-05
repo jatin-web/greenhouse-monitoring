@@ -41,88 +41,100 @@ class _UploadDataScreenState extends State<UploadDataScreen> {
   Widget build(BuildContext context) {
     // fetchData();
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: Column(
-          children: [
-            SwitchListTile(
-              value: intToBoolConverter(manualMode),
-              onChanged: (val) {
-                setState(() {
-                  manualMode == 0 ? manualMode = 1 : manualMode = 0;
-                });
-                ref.update({
-                  "is_operate_manually": manualMode,
-                });
-              },
-              title: Text("Manual Mode", style: style),
-            ),
-            const Divider(
-              thickness: 2,
-            ),
-            const SizedBox(height: 15),
-            manualMode != 1
-                ? const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20.0),
-                    child: Center(
-                        child: Text(
-                      "Please enable manual mode",
-                      style: TextStyle(color: Colors.grey),
-                    )),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        _getField("Pump", isTurnOnPump, () async {
-                          setState(() {
-                            isTurnOnPump == 0
-                                ? isTurnOnPump = 1
-                                : isTurnOnPump = 0;
-                          });
-                          await ref.update({
-                            "is_turn_on_pump": isTurnOnPump,
-                          });
-                        }),
-                        _getField("Fan", isTurnOnFan, () async {
-                          setState(() {
-                            isTurnOnFan == 0
-                                ? isTurnOnFan = 1
-                                : isTurnOnFan = 0;
-                          });
-                          await ref.update({
-                            "is_turn_on_fan_1": isTurnOnFan,
-                          });
-                        }),
-                        _getField("Motor", isTurnOnMotor, () async {
-                          setState(() {
-                            isTurnOnMotor == 0
-                                ? isTurnOnMotor = 1
-                                : isTurnOnMotor = 0;
-                          });
-                          await ref.update({
-                            "is_turn_on_servo": isTurnOnMotor,
-                          });
-                        }),
-                        _getField("Light", isTurnOnLight, () async {
-                          setState(() {
-                            isTurnOnLight == 0
-                                ? isTurnOnLight = 1
-                                : isTurnOnLight = 0;
-                          });
-                          await ref.update({
-                            "is_turn_on_LED": isTurnOnLight,
-                          });
-                        }),
-                      ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SwitchListTile(
+                value: intToBoolConverter(manualMode),
+                onChanged: (val) {
+                  setState(() {
+                    manualMode == 0 ? manualMode = 1 : manualMode = 0;
+                  });
+                  ref.update({
+                    "is_operate_manually": manualMode,
+                  });
+                },
+                title: Text("Manual Mode", style: style),
+              ),
+              const Divider(
+                thickness: 2,
+              ),
+              const SizedBox(height: 15),
+              manualMode != 1
+                  ? const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20.0),
+                      child: Center(
+                          child: Text(
+                        "Please enable manual mode",
+                        style: TextStyle(color: Colors.grey),
+                      )),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          _getSwitchTile("Pump", isTurnOnPump, () async {
+                            setState(() {
+                              isTurnOnPump == 0
+                                  ? isTurnOnPump = 1
+                                  : isTurnOnPump = 0;
+                            });
+                            await ref.update({
+                              "is_turn_on_pump": isTurnOnPump,
+                            });
+                          }),
+                          _getSwitchTile("Fan", isTurnOnFan, () async {
+                            setState(() {
+                              isTurnOnFan == 0
+                                  ? isTurnOnFan = 1
+                                  : isTurnOnFan = 0;
+                            });
+                            await ref.update({
+                              "is_turn_on_fan_1": isTurnOnFan,
+                            });
+                          }),
+                          _getSwitchTile("Motor", isTurnOnMotor, () async {
+                            setState(() {
+                              isTurnOnMotor == 0
+                                  ? isTurnOnMotor = 1
+                                  : isTurnOnMotor = 0;
+                            });
+                            await ref.update({
+                              "is_turn_on_servo": isTurnOnMotor,
+                            });
+                          }),
+                          _getSwitchTile("Light", isTurnOnLight, () async {
+                            setState(() {
+                              isTurnOnLight == 0
+                                  ? isTurnOnLight = 1
+                                  : isTurnOnLight = 0;
+                            });
+                            await ref.update({
+                              "is_turn_on_LED": isTurnOnLight,
+                            });
+                          }),
+                        ],
+                      ),
                     ),
-                  ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Column(
+                  children: [
+                    _getField("Temperature", "temprature_refrance_value"),
+                    _getField("Humidity", "humidity_refrance_value"),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
-  _getField(String title, int? val, Function onUpdate) {
+  _getSwitchTile(String title, int? val, Function onUpdate) {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: SwitchListTile(
@@ -131,6 +143,48 @@ class _UploadDataScreenState extends State<UploadDataScreen> {
           onUpdate();
         },
         title: Text(title),
+      ),
+    );
+  }
+
+  _getField(String title, String key) {
+    TextEditingController _controller = TextEditingController();
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextFormField(
+              controller: _controller,
+              decoration: InputDecoration(
+                hintText: "Set $title",
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          SizedBox(width: 10),
+          InkWell(
+            onTap: () async {
+              print(_controller.text);
+              try {
+                DatabaseReference dbRef =
+                    FirebaseDatabase.instance.ref("ghm_real_time_data");
+                await dbRef.update({
+                  key: _controller.text,
+                });
+                _controller.clear();
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("$title updated successfully")));
+              } catch (e) {
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text("Error : $e")));
+              }
+            },
+            child: const CircleAvatar(
+              child: Icon(Icons.check),
+            ),
+          )
+        ],
       ),
     );
   }
