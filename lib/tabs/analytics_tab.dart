@@ -105,7 +105,11 @@ class _AnalyticsTabState extends State<AnalyticsTab> {
                 });
               }),
           const SizedBox(height: 20),
-          Expanded(child: getChart()),
+          Expanded(
+              child: Padding(
+            padding: EdgeInsets.only(right: 15, bottom: 10),
+            child: getChart(),
+          )),
         ],
       ),
     );

@@ -10,6 +10,7 @@ class CurrentDataTab extends StatefulWidget {
 }
 
 class _CurrentDataTabState extends State<CurrentDataTab> {
+  TextStyle style = const TextStyle(fontSize: 18);
   int? humidity;
   int? temperature;
   int? soilData;
@@ -37,23 +38,12 @@ class _CurrentDataTabState extends State<CurrentDataTab> {
       lightData = data['lightData'];
       temperature = data['temperature'];
       humidity = data['humidity'];
-      setState(() {});
+      if (mounted) setState(() {});
     });
   }
 
-  TextStyle style = const TextStyle(fontSize: 18);
-
-  _showInfo(String data) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(data, style: style),
-        Divider(),
-      ],
-    );
-  }
-
-  _infoBox(String key, String val) {
+  _infoBox(String key, String val, String unit,
+      {bool isWaterContentLabel = false, bool isForLight = false}) {
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
@@ -64,13 +54,23 @@ class _CurrentDataTabState extends State<CurrentDataTab> {
         children: [
           Text(
             key,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
-          SizedBox(height: 10),
-          Text(
-            val,
-            style: TextStyle(fontSize: 20),
-          ),
+          const SizedBox(height: 10),
+          isWaterContentLabel
+              ? Text(
+                  val == "1" ? "Absent" : "Present",
+                  style: const TextStyle(fontSize: 30),
+                )
+              : isForLight
+                  ? Text(
+                      val == "1" ? "Present" : "Absent",
+                      style: const TextStyle(fontSize: 30),
+                    )
+                  : Text(
+                      "$val $unit",
+                      style: const TextStyle(fontSize: 30),
+                    ),
         ],
       ),
     );
@@ -92,19 +92,20 @@ class _CurrentDataTabState extends State<CurrentDataTab> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                 
                   GridView(
                     shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 5 / 4,
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10),
                     children: [
-                      _infoBox("Soil Data ", soilData.toString()),
-                      _infoBox("Light Data ", lightData.toString()),
-                      _infoBox("Temperature ", temperature.toString()),
-                      _infoBox("Humidity ", humidity.toString()),
+                      _infoBox("Water Content ", soilData.toString(), "%",
+                          isWaterContentLabel: true),
+                      _infoBox("Light ", lightData.toString(), "lux",
+                          isForLight: true),
+                      _infoBox("Temperature ", temperature.toString(), "°C"),
+                      _infoBox("Humidity ", humidity.toString(), "%"),
                     ],
                   ),
                 ],

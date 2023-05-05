@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:plant_monitor/analytics_tab.dart';
-import 'package:plant_monitor/upload_data.dart';
-
-import 'current_data_tab.dart';
+import 'package:plant_monitor/tabs/analytics_tab.dart';
+import 'package:plant_monitor/tabs/current_data_tab.dart';
+import 'package:plant_monitor/tabs/upload_data.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> pages = [
     const CurrentDataTab(),
     const AnalyticsTab(),
+    const UploadDataScreen(),
   ];
 
   @override
@@ -24,22 +24,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Green House Monitoring'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const UploadDataScreen()));
-              },
-              icon: const Icon(Icons.upload))
-        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.analytics), label: 'Analytics'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.upload), label: 'Manage Data'),
           ],
           currentIndex: currIndex,
           onTap: (index) {

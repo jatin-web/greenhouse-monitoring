@@ -28,15 +28,11 @@ class LineChartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          Text(
-            "min : $minY, max : $maxY",
-            style: Theme.of(context).textTheme.headline6,
-          ),
           Expanded(
             child: LineChart(
               LineChartData(
-                minX: minX - 100,
-                maxX: maxX + 100,
+                minX: minX - 200,
+                maxX: maxX + 200,
                 minY: minY - 5,
                 maxY: maxY + 5,
                 titlesData: LineTitles.getTitleData(),
@@ -45,14 +41,14 @@ class LineChartWidget extends StatelessWidget {
                   getDrawingHorizontalLine: (value) {
                     return FlLine(
                       color: const Color(0xff37434d),
-                      strokeWidth: 1,
+                      strokeWidth: 0.5,
                     );
                   },
                   drawVerticalLine: true,
                   getDrawingVerticalLine: (value) {
                     return FlLine(
                       color: const Color(0xff37434d),
-                      strokeWidth: 1,
+                      strokeWidth: 0.5,
                     );
                   },
                 ),
@@ -72,26 +68,13 @@ class LineChartWidget extends StatelessWidget {
 
                       return FlSpot(x, y);
                     }).toList(),
-                    // spots: [
-                    //   FlSpot(0, 3),
-                    //   FlSpot(2.6, 2),
-                    //   FlSpot(4.9, 5),
-                    //   FlSpot(6.8, 3.1),
-                    //   FlSpot(8, 4),
-                    //   FlSpot(9.5, 3),
-                    //   FlSpot(11, 4),
-                    // ],
+
                     isCurved: true,
                     // colors: gradientColors,
-                    color: Colors.yellow,
+                    color: Colors.teal,
                     barWidth: 3,
-                    // dotData: FlDotData(show: false),
-                    belowBarData: BarAreaData(
-                        show: true,
-                        // colors: gradientColors
-                        //     .map((color) => color.withOpacity(0.3))
-                        //     .toList(),
-                        color: Colors.yellow.withOpacity(0.3)),
+                    belowBarData:
+                        BarAreaData(color: Colors.teal.withOpacity(0.3)),
                   ),
                 ],
               ),

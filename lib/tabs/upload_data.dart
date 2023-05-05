@@ -11,10 +11,10 @@ class UploadDataScreen extends StatefulWidget {
 class _UploadDataScreenState extends State<UploadDataScreen> {
   int? manualMode;
   int? isOperateManually;
-  int? isTurnOnLED;
+  int? isTurnOnLight;
   int? isTurnOnFan;
   int? isTurnOnPump;
-  int? isTurnOnServo;
+  int? isTurnOnMotor;
   bool isLoading = false;
   DatabaseReference ref = FirebaseDatabase.instance.ref("ghm_real_time_data");
   TextStyle style = const TextStyle(fontSize: 18);
@@ -25,25 +25,22 @@ class _UploadDataScreenState extends State<UploadDataScreen> {
     fetchData();
   }
 
-  _getField(String title, int? val, Function onUpdate) {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: SwitchListTile(
-        value: intToBoolConverter(val),
-        onChanged: (val) {
-          onUpdate();
-        },
-        title: Text(title),
-      ),
-    );
+  fetchData() async {
+    DatabaseReference ref = FirebaseDatabase.instance.ref("ghm_real_time_data");
+    DataSnapshot snapshot = await ref.get();
+    print(snapshot.value);
+    manualMode = snapshot.child("is_operate_manually").value as int;
+    isTurnOnPump = snapshot.child("is_turn_on_pump").value as int;
+    isTurnOnLight = snapshot.child("is_turn_on_LED").value as int;
+    isTurnOnFan = snapshot.child("is_turn_on_fan_1").value as int;
+    isTurnOnMotor = snapshot.child("is_turn_on_servo").value as int;
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    // fetchData();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Upload Data'),
-      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -96,24 +93,24 @@ class _UploadDataScreenState extends State<UploadDataScreen> {
                             "is_turn_on_fan_1": isTurnOnFan,
                           });
                         }),
-                        _getField("Servo", isTurnOnServo, () async {
+                        _getField("Motor", isTurnOnMotor, () async {
                           setState(() {
-                            isTurnOnServo == 0
-                                ? isTurnOnServo = 1
-                                : isTurnOnServo = 0;
+                            isTurnOnMotor == 0
+                                ? isTurnOnMotor = 1
+                                : isTurnOnMotor = 0;
                           });
                           await ref.update({
-                            "is_turn_on_servo": isTurnOnServo,
+                            "is_turn_on_servo": isTurnOnMotor,
                           });
                         }),
-                        _getField("LED", isTurnOnLED, () async {
+                        _getField("Light", isTurnOnLight, () async {
                           setState(() {
-                            isTurnOnLED == 0
-                                ? isTurnOnLED = 1
-                                : isTurnOnLED = 0;
+                            isTurnOnLight == 0
+                                ? isTurnOnLight = 1
+                                : isTurnOnLight = 0;
                           });
                           await ref.update({
-                            "is_turn_on_LED": isTurnOnLED,
+                            "is_turn_on_LED": isTurnOnLight,
                           });
                         }),
                       ],
@@ -125,15 +122,17 @@ class _UploadDataScreenState extends State<UploadDataScreen> {
     );
   }
 
-  fetchData() async {
-    DatabaseReference ref = FirebaseDatabase.instance.ref("ghm_real_time_data");
-    DataSnapshot snapshot = await ref.get();
-    print(snapshot.value);
-    manualMode = snapshot.child("is_operate_manually").value as int;
-    isTurnOnPump = snapshot.child("is_turn_on_pump").value as int;
-    isTurnOnLED = snapshot.child("is_turn_on_LED").value as int;
-    isTurnOnFan = snapshot.child("is_turn_on_fan_1").value as int;
-    isTurnOnServo = snapshot.child("is_turn_on_servo").value as int;
+  _getField(String title, int? val, Function onUpdate) {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: SwitchListTile(
+        value: intToBoolConverter(val),
+        onChanged: (val) {
+          onUpdate();
+        },
+        title: Text(title),
+      ),
+    );
   }
 
   intToBoolConverter(int? val) {
