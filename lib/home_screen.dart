@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plant_monitor/info_screen.dart';
 import 'package:plant_monitor/tabs/analytics_tab.dart';
 import 'package:plant_monitor/tabs/current_data_tab.dart';
 import 'package:plant_monitor/tabs/upload_data.dart';
@@ -11,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int currIndex = 2;
+  int currIndex = 0;
 
   List<Widget> pages = [
     const CurrentDataTab(),
@@ -24,6 +25,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Green House Monitoring'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => InfoScreen()));
+              },
+              icon: const Icon(Icons.info))
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
           items: const [

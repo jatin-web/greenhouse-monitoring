@@ -1,0 +1,1 @@
+String aboutProject = "The greenhouse monitoring app is designed to help growers track and optimize plant growth in a sustainable and eco-friendly way. It provides real-time data on temperature, humidity, light, and soil moisture levels, enabling growers to make informed decisions and reduce waste while promoting healthy, thriving plants.";
